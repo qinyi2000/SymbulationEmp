@@ -32,6 +32,8 @@ EMP_BUILD_CONFIG(SymConfigBase,
 
 namespace UI = emp::web;
 SymConfigBase config;
+double canvas_x; // coordiante position of canvas with the petri dish
+double canvas_y; 
 
 class MyAnimate : public UI::Animate {
 private:
@@ -51,6 +53,9 @@ private:
   emp::vector<emp::Ptr<Host>> p;
 
   // Params for controlling petri dish
+  int x_test;
+  int y_test;
+  int id_in_pop = 0;
   int side_x = config.GRID_X();
   int side_y = config.GRID_Y();
   const int offset = 20;
@@ -65,6 +70,7 @@ public:
 
   MyAnimate() : doc("emp_base") {
     initializeWorld();
+
     // ----------------------- Input field for modifying the vertical transmission rate -----------------------
     doc << "<b>See what happens at different vertical transmission rates!<br>Please type in a vertical transmisson rate between 0 and 1, then click Reset: </b><br>";
     doc.AddTextArea([this](const std::string & in){
@@ -173,6 +179,21 @@ public:
     drawPetriDish(mycanvas);
     doc << "<br>";
 
+    // ----------------------- Test mouse move detection on canvas -----------------------
+    doc << UI::Text("test_mouse");
+    canvas_x = mycanvas.GetXPos();
+    canvas_y = mycanvas.GetYPos(); // Doesn't seem to work correctly
+    doc << "canvas_x = " << canvas_x << ", canvas_y = " << canvas_y << "<br>"; 
+    doc.Text("test_mouse") << "x = " << UI::Live([this](){ return x_test; }) 
+      << ", y = " << UI::Live([this](){ return y_test; }) 
+      << ", id in pop = " << UI::Live([this](){ return id_in_pop; }) << "<br>";
+    mycanvas.OnMouseMove([this](int x, int y){ 
+      x_test = x;
+      y_test = y;
+      id_in_pop = ((y - 100 - offset)/RECT_WIDTH) * side_y + (x - canvas_x - offset)/RECT_WIDTH; // computes the index of the host being "hovered" in pop
+      doc.Text("test_mouse").Redraw();
+    });
+
     doc << "If you'd like to learn more, please see the publication <a href=\"https://www.mitpressjournals.org/doi/abs/10.1162/artl_a_00273\">Spatial Structure Can Decrease Symbiotic Cooperation</a>.";
 
   }
@@ -265,9 +286,18 @@ public:
   }
 
   // create a box that will display more info about a host you select/hover over
-  void makeInfoBox(UI::Canvas & can) {
-      doc <<"The host intval is:";
+  // void makeInfoBox(UI::Canvas & can) {
+  //     doc <<"The host intval is:";
       
+  // }
+
+  // side_y is the number of elements in each row. c_x and c_y stand for canvas's x and y coordinate. RECT_WIDTH is width of a rectangle host
+  int computeIndex(int x, int y, int side_y, int c_x, int c_y, const int RECT_WIDTH, const int offset) { // coordinates are specified with int precision
+    x = x - offset - c_x;
+    y = y - offset - c_y;
+    return ((y/RECT_WIDTH) * side_y + (x/RECT_WIDTH)); 
+    // this step computes where the rectangle is in the grid, thereby knowing its index in the pop array.
+    // y/RECT_WIDTH is the number of rows whereas x/RECT_WIDTH is the number of columns. 
   }
 
   void DoFrame() {
