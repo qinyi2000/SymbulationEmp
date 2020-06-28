@@ -191,9 +191,6 @@ public:
     mycanvas.OnMouseMove([this](int x, int y){ 
       x_test = x;
       y_test = y;
-      // cell_info.SetCSS("display", "block");
-      // cell_info.SetCSS("left", x_test);
-      // cell_info.SetCSS("top", y_test);
       id_in_pop = ((y - 125 - offset)/RECT_WIDTH) * side_y + (x - 85 - offset)/RECT_WIDTH; // computes the index of the host being "hovered" in pop. 85 and 125 are hardcoded coordinates for canvas
       doc.Text("test_mouse").Redraw();
     });
