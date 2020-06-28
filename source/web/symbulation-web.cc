@@ -38,6 +38,7 @@ double canvas_y;
 class MyAnimate : public UI::Animate {
 private:
   UI::Document doc;
+  //UI::Document cell_info;
   UI::Text em_vert_trans{"em_vert_trans"};
   UI::Text em_grid{"em_grid"};
 
@@ -68,7 +69,7 @@ private:
 
 public:
 
-  MyAnimate() : doc("emp_base") {
+  MyAnimate() : doc("emp_base"){
     initializeWorld();
 
     // ----------------------- Input field for modifying the vertical transmission rate -----------------------
@@ -190,12 +191,18 @@ public:
     mycanvas.OnMouseMove([this](int x, int y){ 
       x_test = x;
       y_test = y;
+      // cell_info.SetCSS("display", "block");
+      // cell_info.SetCSS("left", x_test);
+      // cell_info.SetCSS("top", y_test);
       id_in_pop = ((y - 125 - offset)/RECT_WIDTH) * side_y + (x - 85 - offset)/RECT_WIDTH; // computes the index of the host being "hovered" in pop. 85 and 125 are hardcoded coordinates for canvas
       doc.Text("test_mouse").Redraw();
     });
 
-    doc << "If you'd like to learn more, please see the publication <a href=\"https://www.mitpressjournals.org/doi/abs/10.1162/artl_a_00273\">Spatial Structure Can Decrease Symbiotic Cooperation</a>.";
+    // cell_info << "This is a test";
+    // cell_info.SetCSS("display", "none");
+    // doc << cell_info;
 
+    doc << "If you'd like to learn more, please see the publication <a href=\"https://www.mitpressjournals.org/doi/abs/10.1162/artl_a_00273\">Spatial Structure Can Decrease Symbiotic Cooperation</a>.";
   }
 
   void initializeWorld(){
