@@ -36,30 +36,19 @@ Symbulation is a research platform for simulating the evolution of symbionts and
 
 <div class="container">
 <div id="emp_base"></div>
-<canvas id="tip" width=100 height=25 style="position:absolute;"></canvas>
 </div>
+
+<div id="test" width=100 height=100 style="position:absolute;">This is a test div</canvas>
   
 <script src="jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="symbulation.js"></script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 $(function(){
     // Note: mouse position of e is different from the Empirical one, so doesn't work.
-    var tipCanvas = document.getElementById("tip");
-    var tipCtx = tipCanvas.getContext("2d");
-    $("#can1").mousemove(function(e){handleMouseMove(e);});
-
-    function handleMouseMove(e){
-      mouseX=parseInt(e.clientX-20);
-      mouseY=parseInt(e.clientY-20);
-
-      // Put your mousemove stuff here
-      tipCanvas.style.left = mouseX + "px";
-      tipCanvas.style.top = mouseY + "px";
-      tipCtx.fillText("test", 5, 15);
-    }
+    $("#test").mousemove(function(e){ console.log("xe = " + e.clientX); console.log("ye = " + e.clientY); });
 })
-</script> -->
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

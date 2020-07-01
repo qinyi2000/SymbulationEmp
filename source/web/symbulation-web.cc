@@ -175,7 +175,11 @@ public:
     doc << "<br>";
 
     // Add a canvas for petri dish and draw the initial petri dish
-    auto mycanvas = doc.AddCanvas(can_size, can_size, "can");
+    doc.AddDiv("canvas_container");
+    auto d = doc.Div("canvas_container");
+    auto mycanvas = UI::Canvas(can_size, can_size, "can");
+    d << mycanvas;
+    //auto mycanvas = doc.AddCanvas(can_size, can_size, "can");
     targets.push_back(mycanvas);
     drawPetriDish(mycanvas);
     doc << "<br>";
@@ -201,8 +205,8 @@ public:
       doc.Div("tip").SetCSS("opacity", "0");
     });
 
-    doc.AddDiv("tip");
-    doc.Div("tip").SetCSS("position", "relative");
+    d << UI::Div("tip");
+    doc.Div("tip").SetCSS("position", "absolute");
     doc.Div("tip").SetCSS("opacity", "0");
     doc.Div("tip") << "Hover tooltip test";
 
